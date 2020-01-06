@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 setTable(0.12, 180);
                 showTable();
-                amount.setText((getTheAmount(Double.valueOf(payEdittext.getText().toString()))).toString());
+               amount.setText((getTheAmount(Double.valueOf(payEdittext.getText().toString()))).toString());
             }
         });
 
@@ -64,22 +64,25 @@ public class MainActivity extends AppCompatActivity {
     public List <AnnuString> setTable (Double rate, int period) {
     table = new ArrayList<>();
 
-        for (int i=0;i<20;i++) {
+        for (int i=0;i<20000;i++) {
             AnnuString annuString = new AnnuString();
             table.add(i, annuString);
-            double amount = i*30000d;
+            double amount = i*100d;
             annuString.setAmount(amount);
             annuString.setRate(rate);
             annuString.setDuration(period);
-            double pay = (amount * rate/12)/(1-Math.pow((1+amount* rate/12),(period*-1)));
+            double pay = amount * (rate/12+((rate/12)/((Math.pow(1+rate/12,period))-1)));
             annuString.setPayment(pay);
         }
         return table;
     }
 
     public void showTable () {
-        for (int i=0;i<20;i++) {
+        for (int i=0;i<20000;i++) {
         System.out.println("# "+i+" "+ table.get(i).getAmount()+" "+ table.get(i).getDuration()+ " "+ table.get(i).getRate()+" -> "+table.get(i).getPayment());
     }
 }
 }
+
+
+//  Выкидывает ошибки диапазона.
